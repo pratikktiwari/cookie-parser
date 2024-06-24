@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Parser</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h4 {
+            margin-bottom: 20px;
+        }
+        section {
+            margin: 20px;
+        }
+        .card {
+            box-shadow: 2px 4px 5px rgba(0,0,0,.2);
+            margin: 10px;
+            padding: 10px;
+            min-width: 200px;
+            border: 1px solid #ddd;
+        }
+        #parsed-cookie {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        textarea {
+            resize: none;
+            height: 150px;
+            width: 400px;
+            border-radius: 4px;
+            padding: 6px;
+        }
+        button {
+            border: 0;
+            height: 50px;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #ddd;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #aaa;
+        }
+        .wrapper-input {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h4>Client side cookie parser</h4>
+        <div class="wrapper-input">
+            <textarea type="text" id="cookie-value"></textarea>
+            <button onclick="renderCookie()">Parse Cookie</button>
+        </div>
+    </section>
+
+    <section id="parsed-cookie">
+
+    </section>
+
+    <script>
+        function parseCookie(cookie){
+            const list = cookie.split("&");
+            const res = [];
+            list.forEach(item => {
+                const temp = item.split("=");
+                res.push({name: temp[0], value: temp[1]});
+            });
+            return res;
+        }
+
+        function renderCookie() {
+            const val = document.querySelector('#cookie-value')?.value;
+            if (!val) return;
+
+            const section = document.querySelector('#parsed-cookie');
+            const cookies = parseCookie(val);
+
+            let html = '';
+            cookies.forEach((item) => {
+                html += `<div class='card'>
+                    <div class='cookie-name'>${item.name}</div><div class='cookie-value'>${item.value}</div>
+                    </div>`;
+            });
+            section.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
